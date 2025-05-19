@@ -116,7 +116,7 @@ jobs:
       run: |
         mkdir -p openwrt/files
         wget -qO files.zip "${{ secrets.FILES_TAR_GZ_URL }}"
-        unzip -d openwrt/files files.zip
+        unzip -d openwrt/files -q files.zip
 
     - name: Load custom configuration
       run: |
