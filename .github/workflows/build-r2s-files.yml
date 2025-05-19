@@ -166,6 +166,16 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
+    - name: Send firmware to Telegram
+      uses: appleboy/telegram-action@v0.1.0
+      with:
+        to: ${{ secrets.TG_CHAT_ID }}
+        token: ${{ secrets.TG_BOT_TOKEN }}
+        document: openwrt/bin/targets/*/*/*.img.gz
+        message: |
+          ✅ OpenWrt 编译完成！
+          📦 固件文件已上传
+
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
