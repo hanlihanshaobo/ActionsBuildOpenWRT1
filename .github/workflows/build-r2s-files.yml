@@ -173,21 +173,8 @@ jobs:
         token: ${{ secrets.TG_BOT_TOKEN }}
         document: openwrt/bin/targets/*/*/*.img.gz
         message: |
-      🛠️ *OpenWrt 固件编译完成* ✅
-
-      ┌──────────────────────────────┐
-      📦 *文件名*：`*.img.gz`
-      📁 *路径*：`bin/targets/...`
-      🌿 *分支*：`${{ github.ref_name }}`
-      🧑‍💻 *作者*：[${{ github.actor }}](https://github.com/${{ github.actor }})
-      🕒 *时间*：`${{ github.event.head_commit.timestamp }}`
-      🔗 *仓库*：[${{ github.repository }}](https://github.com/${{ github.repository }})
-      └──────────────────────────────┘
-
-      🚨 *注意：本固件已内置私有配置（files/）*\!
-      📢 *请勿在公共平台传播，防止泄露敏感信息\！*
-
-      🔽 *如需重新下载*：[点击获取 Release](https://github.com/${{ github.repository }}/releases)
+          ✅ OpenWrt 编译完成！
+          📦 固件文件已上传
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
