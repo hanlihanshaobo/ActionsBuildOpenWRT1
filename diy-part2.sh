@@ -12,7 +12,7 @@ sed -i '/exit 0/i \
 # 设置默认主题为 kucat\n\
 uci set luci.main.mediaurlbase="\/luci-static\/kucat"\n\
 # 设置默认语言为中文简体\n\
-uci set luci.main.lang="zh_cn"\n\
+# uci set luci.main.lang="zh_cn"\n\
 # 设置主机名\n\
 uci set system.@system[0].hostname="DMWRT"\n\
 # 设置默认 IP 地址\n\
