@@ -106,8 +106,8 @@ jobs:
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
-    - name: diy luci-theme-argon
-      run: cd openwrt && rm -rf /feeds/luci/themes/luci-theme-argon
+    # - name: diy luci-theme-argon
+    #   run: cd openwrt && rm -rf /feeds/luci/themes/luci-theme-argon
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
