@@ -35,7 +35,11 @@ jobs:
       with:
         to: ${{ secrets.TG_CHAT_ID }}
         token: ${{ secrets.TG_BOT_TOKEN }}
-        message: "DMwrt开始编译"
+        message: "DmWrt开始编译"
+        message: |
+          ✅ *DmWrt 开始编译*
+          📅 开始日期: `${{ env.FILE_DATE }}`
+          📁 编译设备: `${{ env.DEVICE_NAME }}`  
 
     - name: "Optimize Disk Space"
       uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
