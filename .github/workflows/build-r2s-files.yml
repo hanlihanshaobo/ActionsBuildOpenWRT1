@@ -174,7 +174,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Send firmware to Telegram
-      uses: appleboy/telegram-action@v0.1.0
+      uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TG_CHAT_ID }}
         token: ${{ secrets.TG_BOT_TOKEN }}
