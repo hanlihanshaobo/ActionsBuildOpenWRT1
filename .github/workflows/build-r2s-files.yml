@@ -30,6 +30,13 @@ jobs:
         df -hT
         echo "=============================================================================="
 
+    - name: Preload telegram-action Docker image
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TG_CHAT_ID }}
+        token: ${{ secrets.TG_BOT_TOKEN }}
+        message: "DMwrt开始编译"
+
     - name: "Optimize Disk Space"
       uses: "hugoalh/disk-space-optimizer-ghaction@v0.8.1"
       with:
@@ -173,8 +180,10 @@ jobs:
         token: ${{ secrets.TG_BOT_TOKEN }}
         document: openwrt/bin/targets/*/*/*.img.gz
         message: |
-          ✅ OpenWrt 编译完成！
-          📦 固件文件已上传
+          ✅ *DmWrt 编译完成*
+          📅 日期: `${{ env.FILE_DATE }}`
+          📁 设备: `${{ env.DEVICE_NAME }}`
+          📦 固件作者: 王总的小迷弟
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
