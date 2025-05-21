@@ -1,3 +1,19 @@
+const { execSync } = require('child_process');
+
+function ensureModule(moduleName) {
+  try {
+    require.resolve(moduleName);
+  } catch (e) {
+    console.log(`📦 模块 ${moduleName} 未安装，正在安装...`);
+    execSync(`npm install ${moduleName}`, { stdio: 'inherit' });
+  }
+}
+
+// 需要的依赖列表
+const dependencies = ['crypto','axios', '@actions/core'];
+
+dependencies.forEach(dep => ensureModule(dep));
+
 const crypto = require('crypto');
 const axios = require('axios');
 const core = require('@actions/core');
