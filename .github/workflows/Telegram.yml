@@ -29,7 +29,9 @@ jobs:
         echo "=============================================================================="
         df -hT
         echo "=============================================================================="
-
+    
+    - name: Checkout
+      uses: actions/checkout@main
 
     - name: 推送钉钉消息
       uses: ./.github/actions/send-dingtalk-message
