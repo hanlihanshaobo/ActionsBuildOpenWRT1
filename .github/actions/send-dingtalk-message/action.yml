@@ -1,36 +1,15 @@
-name: Send DingTalk Message
-description: Send message to DingTalk group via webhook
-
+name: 'Send DingTalk Message'
+description: 'Send message to DingTalk webhook, supports optional signing'
 inputs:
   webhook:
+    description: 'DingTalk webhook URL'
     required: true
-    description: DingTalk webhook URL
   secret:
+    description: 'DingTalk secret key (optional, for signed bots)'
     required: false
-    description: Secret for signature (optional)
   message:
+    description: 'Message content to send'
     required: true
-    description: The text message to send
-
 runs:
-  using: "composite"
-  steps:
-    - name: Send message to DingTalk
-      shell: bash
-      run: |
-        timestamp=$(($(date +%s%N)/1000000))
-        if [ -n "${{ inputs.secret }}" ]; then
-          sign=$(echo -n "$timestamp\n${{ inputs.secret }}" | openssl dgst -sha256 -hmac "${{ inputs.secret }}" -binary | base64 | jq -s -R -r @uri)
-          webhook_url="${{ inputs.webhook }}&timestamp=$timestamp&sign=$sign"
-        else
-          webhook_url="${{ inputs.webhook }}"
-        fi
-
-        curl -sS -X POST "$webhook_url" \
-          -H 'Content-Type: application/json' \
-          -d "{
-            \"msgtype\": \"text\",
-            \"text\": {
-              \"content\": \"${{ inputs.message }}\"
-            }
-          }"
+  using: 'node16'
+  main: 'index.js'
