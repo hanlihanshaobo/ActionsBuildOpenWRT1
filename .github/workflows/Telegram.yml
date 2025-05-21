@@ -30,15 +30,16 @@ jobs:
         df -hT
         echo "=============================================================================="
 
+
     - name: Send firmware to Telegram (via curl)
-        if: steps.organize.outputs.status == 'success' && !cancelled()
-        run: |
-          FILE_PATH=$(find openwrt/bin/targets/ -type f -name "*.img.gz" | head -n 1)
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-            -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-            -F document=@"$FILE_PATH" \
-            -F parse_mode="Markdown" \
-            -F caption="✅ *DmWrt 编译完成*\n📅 日期: \`${{ env.FILE_DATE }}\`\n📁 设备: \`${{ env.DEVICE_NAME }}\`\n📦 固件作者: 王总的小迷弟"
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      run: |
+        FILE_PATH=$(find openwrt/bin/targets/ -type f -name "*.img.gz" | head -n 1)
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+          -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+          -F document=@"$FILE_PATH" \
+          -F parse_mode="Markdown" \
+          -F caption="✅ *DmWrt 编译完成*\n📅 日期: \`${{ env.FILE_DATE }}\`\n📁 设备: \`${{ env.DEVICE_NAME }}\`\n📦 固件作者: 王总的小迷弟"
 
 
     - name: "Optimize Disk Space"
