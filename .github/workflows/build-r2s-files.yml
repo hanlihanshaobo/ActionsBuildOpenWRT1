@@ -158,7 +158,7 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: Send firmware to Telegram (via curl)
+    - name: Send firmware to Telegram
       if: steps.organize.outputs.status == 'success' && !cancelled()
       run: |
         FILE_PATH=$(find openwrt/bin/targets/ -type f -name "*.img.gz" | head -n 1)
@@ -166,10 +166,8 @@ jobs:
           -F chat_id="${{ secrets.TG_CHAT_ID }}" \
           -F document=@"$FILE_PATH" \
           -F parse_mode="Markdown" \
-          -F caption="✅ *DmWrt 编译完成*
-    📅 日期: \`${{ env.FILE_DATE }}\`
-    📁 设备: \`${{ env.DEVICE_NAME }}\`
-    📦 固件作者: 王总的小迷弟"
+          -F caption="✅ *DmWrt 编译完成*\n📅 日期: \`${{ env.FILE_DATE }}\`\n📁 设备: \`${{ env.DEVICE_NAME }}\`\n📦 固件作者: 王总的小迷弟"
+
                
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
