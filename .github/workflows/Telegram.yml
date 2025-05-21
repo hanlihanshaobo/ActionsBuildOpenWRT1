@@ -30,14 +30,25 @@ jobs:
         df -hT
         echo "=============================================================================="
     
-    - name: Checkout
-      uses: actions/checkout@main
+    # - name: Checkout
+    #   uses: actions/checkout@main
 
-    - name: 推送钉钉消息
-      uses: ./.github/actions/send-dingtalk-message
+    # - name: 推送钉钉消息
+    #   uses: ./.github/actions/send-dingtalk-message
+    #   with:
+    #     webhook: ${{ secrets.DINGTALK_WEBHOOK }}
+    #     secret: ${{ secrets.DINGTALK_SECRET }}
+    #     message: |
+    #       ✅ DmWrt 编译完成
+    #       📅 日期: ${{ env.FILE_DATE }}
+    #       📁 设备: ${{ env.DEVICE_NAME }}
+    #       📦 固件作者: 王总的小迷弟
+
+    - name: Notify Telegram
+      uses: Lukasss93/telegram-action@v2
       with:
-        webhook: ${{ secrets.DINGTALK_WEBHOOK }}
-        secret: ${{ secrets.DINGTALK_SECRET }}
+        telegram_token: ${{ secrets.TG_BOT_TOKEN }}
+        telegram_chat_id: ${{ secrets.TG_CHAT_ID }}
         message: |
           ✅ DmWrt 编译完成
           📅 日期: ${{ env.FILE_DATE }}
