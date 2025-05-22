@@ -158,10 +158,34 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
+      # --- 新增上传到 Google Drive 的步骤 ---
+    - name: Upload firmware to Google Drive
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      env:
+        RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+        FILE_DATE: ${{ env.FILE_DATE }}
+        DEVICE_NAME: ${{ env.DEVICE_NAME }}
+        FIRMWARE_PATH: ${{ env.FIRMWARE }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rclone
+        mkdir -p ~/.config/rclone
+        echo "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
+
+        # 测试一下 rclone 配置是否正常
+        rclone listremotes
+
+        # 上传固件目录到 Google Drive
+        # 假设远程名称是 gdrive，路径 OpenWrt-Firmware/日期/设备名/
+        rclone copy "$FIRMWARE_PATH" "gdrive:OpenWrt-Firmware/${FILE_DATE}/${DEVICE_NAME}" --drive-chunk-size=64M --progress
+
     - name: Send firmware to Telegram
       if: steps.compile.outputs.status == 'success' && !cancelled()
+      env:
+        FILE_DATE: ${{ env.FILE_DATE }}
+        DEVICE_NAME: ${{ env.DEVICE_NAME }}
       run: |
-        TEXT="✅ DmWrt 编译完成%0A📅 日期: \\_202505221254\\_%0A📁 设备: \\_friendlyarm\\_nanopi\\-r2s\\_%0A📦 固件作者: 王总的小迷弟"
+        TEXT="✅ DmWrt 编译完成%0A📅 日期: \\_${FILE_DATE}\\_%0A📁 设备: \\_${DEVICE_NAME}\\_%0A📦 固件作者: 王总的小迷弟"
         curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
           -d chat_id="${{ secrets.TG_CHAT_ID }}" \
           -d text="$TEXT" \
