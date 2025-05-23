@@ -160,7 +160,7 @@ jobs:
 
       # --- 新增上传到 Google Drive 的步骤 ---
     - name: Upload firmware to Google Drive
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && !cancelled()
       env:
         RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
         FILE_DATE: ${{ env.FILE_DATE }}
