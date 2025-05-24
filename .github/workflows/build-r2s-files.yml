@@ -176,8 +176,8 @@ jobs:
         rclone listremotes
 
         # 上传固件目录到 Google Drive
-        # 假设远程名称是 gdrive，路径 OpenWrt-Firmware/日期/设备名/
-        rclone copy "$FIRMWARE_PATH" "gdrive:OpenWrt-Firmware/${FILE_DATE}/${DEVICE_NAME}" --drive-chunk-size=64M --progress
+        # 假设远程名称是 gdrive，路径 OpenWrt-Firmware/设备名/日期/
+        rclone copy "$FIRMWARE_PATH" "gdrive:OpenWrt-Firmware/${DEVICE_NAME}/${FILE_DATE}" --drive-chunk-size=64M --progress
 
     - name: Send firmware to Telegram
       if: steps.compile.outputs.status == 'success' && !cancelled()
